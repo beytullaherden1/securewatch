@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dexter - AI Security Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+</head>
+
+<body>
+    <!-- Sidebar Navigation -->
+    <main>
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <img src="images/logo.png" alt="">
+                </div>
+                <div class="version">V1.0.0 MVP</div>
+                <button class="sidebar-toggle"><i class="fa-solid fa-angles-left"></i></button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="#overview" class="nav-item active" data-page="overview">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Overview</span>
+                    <div class="inf-box">Overview</div>
+                </a>
+                <a href="#alerts" class="nav-item" data-page="alerts">
+                    <i class="fas fa-triangle-exclamation"></i>
+                    <span>Live Alerts</span>
+                    <span class="badge">12</span>
+                    <div class="inf-box">Live Alerts</div>
+                </a>
+                <a href="#status" class="nav-item" data-page="status">
+                    <i class="fas fa-server"></i>
+                    <span>System Status</span>
+                    <div class="inf-box">System Status</div>
+                </a>
+                <a href="#logs" class="nav-item" data-page="logs">
+                    <i class="fas fa-file-lines"></i>
+                    <span>System Logs</span>
+                    <div class="inf-box">System Logs</div>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="system-health">
+                    <div class="health-indicator">
+                        <div class="pulse-dot"></div>
+                        <span>System Operational</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+                <div class="header-left">
+                    <h2 id="page-title">Overview Dashboard</h2>
+                    <div class="breadcrumb">
+                        <span>Home</span>
+                        <i class="fas fa-chevron-right"></i>
+                        <span id="breadcrumb-current">Overview</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search alerts, IPs...">
+                    </div>
+                    <div class="header-actions">
+                        <button class="icon-btn">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-dot"></span>
+                        </button>
+                        <button class="icon-btn">
+                            <i class="fas fa-gear"></i>
+                        </button>
+                        <div class="user-profile">
+                            <img src="https://ui-avatars.com/api/?name=Admin&background=6366f1&color=fff" alt="User">
+                            <span>Admin</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Pages -->
+            <div class="content-wrapper">
+                <!-- Overview Page -->
+                <section id="overview-page" class="page active">
+                    <!-- Stats Cards -->
+                    <div class="stats-grid">
+                        <div class="stat-card primary">
+                            <div class="stat-icon">
+                                <i class="fas fa-shield-virus"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Total Threats</h3>
+                                <div class="stat-value">1,247</div>
+                                <div class="stat-change positive">
+                                    <i class="fas fa-arrow-down"></i>
+                                    <span>12% vs last week</span>
+                                </div>
+                            </div>
+                            <div class="stat-chart">
+                                <canvas id="chart-threats"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="stat-card danger">
+                            <div class="stat-icon">
+                                <i class="fas fa-triangle-exclamation"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Active Alerts</h3>
+                                <div class="stat-value">23</div>
+                                <div class="stat-change negative">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>5 new alerts</span>
+                                </div>
+                            </div>
+                            <div class="stat-chart">
+                                <canvas id="chart-alerts"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="stat-card success">
+                            <div class="stat-icon">
+                                <i class="fas fa-gauge-high"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>False Positive Rate</h3>
+                                <div class="stat-value">7.8%</div>
+                                <div class="stat-change positive">
+                                    <i class="fas fa-check"></i>
+                                    <span>Target ≤ 10% (MVP)</span>
+                                </div>
+                            </div>
+                            <div class="stat-chart">
+                                <canvas id="chart-fpr"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="stat-card warning">
+                            <div class="stat-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>System Uptime</h3>
+                                <div class="stat-value">99.8%</div>
+                                <div class="stat-change positive">
+                                    <i class="fas fa-check"></i>
+                                    <span>15 days, 6 hours</span>
+                                </div>
+                            </div>
+                            <div class="stat-chart">
+                                <canvas id="chart-uptime"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main Charts Section -->
+                    <div class="charts-section">
+                        <div class="chart-card large">
+                            <div class="card-header">
+                                <h3>Threat Activity Timeline</h3>
+                                <div class="card-actions">
+                                    <div class="custom-select" id="timeframe-select" data-placeholder="Timeframe" data-select-type="multi">
+                                        <button class="custom-select-trigger" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-clock"></i>
+                                            <span class="custom-select-label">Last 24 Hours</span>
+                                            <i class="fas fa-chevron-down custom-select-chevron"></i>
+                                        </button>
+                                        <div class="custom-select-menu" role="menu">
+                                            <div class="custom-select-header">
+                                                <span class="custom-select-title">Select Timeframe</span>
+                                            </div>
+                                            <div class="custom-select-options">
+                                                <div class="custom-select-option active" data-value="24h"><span>Last 24 Hours</span></div>
+                                                <div class="custom-select-option" data-value="7d"><span>Last 7 Days</span></div>
+                                                <div class="custom-select-option" data-value="30d"><span>Last 30 Days</span></div>
+                                            </div>
+                                            <div class="custom-select-footer">
+                                                <button class="btn custom-select-apply"><i class="fas fa-check"></i> Apply</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="icon-btn-small"
+                                        onclick="openChartModal('threat-timeline', 'Threat Activity Timeline')">
+                                        <i class="fas fa-up-right-and-down-left-from-center"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="threat-timeline"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart-card medium">
+                            <div class="card-header">
+                                <h3>Attack Types Distribution</h3>
+                                <button class="icon-btn-small"
+                                    onclick="openChartModal('attack-types', 'Attack Types Distribution')">
+                                    <i class="fas fa-up-right-and-down-left-from-center"></i>
+                                </button>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="attack-types"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity & Top Threats -->
+                    <div class="bottom-section">
+                        <div class="activity-card">
+                            <div class="card-header">
+                                <h3>Recent Security Events</h3>
+                                <a href="#alerts" class="view-all">View All</a>
+                            </div>
+                            <div class="activity-list">
+                                <div class="activity-item critical">
+                                    <div class="activity-icon">
+                                        <i class="fas fa-skull-crossbones"></i>
+                                    </div>
+                                    <div class="activity-details">
+                                        <h4>Port Scan Detected</h4>
+                                        <p>Multiple ports scanned from 192.168.1.45</p>
+                                        <span class="timestamp">2 minutes ago</span>
+                                    </div>
+                                    <div class="activity-status">
+                                        <span class="status-badge critical">Critical</span>
+                                    </div>
+                                </div>
+                                <div class="activity-item high">
+                                    <div class="activity-icon">
+                                        <i class="fas fa-user-secret"></i>
+                                    </div>
+                                    <div class="activity-details">
+                                        <h4>ARP Spoofing Attempt</h4>
+                                        <p>Suspicious ARP traffic detected on eth0</p>
+                                        <span class="timestamp">15 minutes ago</span>
+                                    </div>
+                                    <div class="activity-status">
+                                        <span class="status-badge high">High</span>
+                                    </div>
+                                </div>
+                                <div class="activity-item medium">
+                                    <div class="activity-icon">
+                                        <i class="fas fa-network-wired"></i>
+                                    </div>
+                                    <div class="activity-details">
+                                        <h4>Unusual Network Traffic</h4>
+                                        <p>Anomaly detected: High packet rate from 10.0.0.23</p>
+                                        <span class="timestamp">1 hour ago</span>
+                                    </div>
+                                    <div class="activity-status">
+                                        <span class="status-badge medium">Medium</span>
+                                    </div>
+                                </div>
+                                <div class="activity-item low">
+                                    <div class="activity-icon">
+                                        <i class="fas fa-info-circle"></i>
+                                    </div>
+                                    <div class="activity-details">
+                                        <h4>System Configuration Change</h4>
+                                        <p>Firewall rules updated successfully</p>
+                                        <span class="timestamp">3 hours ago</span>
+                                    </div>
+                                    <div class="activity-status">
+                                        <span class="status-badge low">Info</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="threats-card">
+                            <div class="card-header">
+                                <h3>Top Threat Sources</h3>
+                                <div class="custom-select" id="threats-filter-select" data-placeholder="Range" data-select-type="multi">
+                                    <button class="custom-select-trigger" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-calendar-day"></i>
+                                        <span class="custom-select-label">Today</span>
+                                        <i class="fas fa-chevron-down custom-select-chevron"></i>
+                                    </button>
+                                    <div class="custom-select-menu" role="menu">
+                                        <div class="custom-select-header">
+                                            <span class="custom-select-title">Time Range</span>
+                                        </div>
+                                        <div class="custom-select-options">
+                                            <div class="custom-select-option active" data-value="today"><span>Today</span></div>
+                                            <div class="custom-select-option" data-value="week"><span>This Week</span></div>
+                                        </div>
+                                        <div class="custom-select-footer">
+                                            <button class="btn custom-select-apply"><i class="fas fa-check"></i> Apply</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="threats-list">
+                                <div class="threat-item">
+                                    <div class="threat-rank">1</div>
+                                    <div class="threat-info">
+                                        <span class="threat-ip">192.168.1.45</span>
+                                        <span class="threat-country">
+                                            <i class="fas fa-location-dot"></i> Turkey
+                                        </span>
+                                    </div>
+                                    <div class="threat-count">
+                                        <span class="count-value">247</span>
+                                        <span class="count-label">attacks</span>
+                                    </div>
+                                </div>
+                                <div class="threat-item">
+                                    <div class="threat-rank">2</div>
+                                    <div class="threat-info">
+                                        <span class="threat-ip">10.0.0.23</span>
+                                        <span class="threat-country">
+                                            <i class="fas fa-location-dot"></i> Unknown
+                                        </span>
+                                    </div>
+                                    <div class="threat-count">
+                                        <span class="count-value">189</span>
+                                        <span class="count-label">attacks</span>
+                                    </div>
+                                </div>
+                                <div class="threat-item">
+                                    <div class="threat-rank">3</div>
+                                    <div class="threat-info">
+                                        <span class="threat-ip">172.16.0.88</span>
+                                        <span class="threat-country">
+                                            <i class="fas fa-location-dot"></i> Local
+                                        </span>
+                                    </div>
+                                    <div class="threat-count">
+                                        <span class="count-value">156</span>
+                                        <span class="count-label">attacks</span>
+                                    </div>
+                                </div>
+                                <div class="threat-item">
+                                    <div class="threat-rank">4</div>
+                                    <div class="threat-info">
+                                        <span class="threat-ip">203.0.113.42</span>
+                                        <span class="threat-country">
+                                            <i class="fas fa-location-dot"></i> External
+                                        </span>
+                                    </div>
+                                    <div class="threat-count">
+                                        <span class="count-value">134</span>
+                                        <span class="count-label">attacks</span>
+                                    </div>
+                                </div>
+                                <div class="threat-item">
+                                    <div class="threat-rank">5</div>
+                                    <div class="threat-info">
+                                        <span class="threat-ip">198.51.100.7</span>
+                                        <span class="threat-country">
+                                            <i class="fas fa-location-dot"></i> External
+                                        </span>
+                                    </div>
+                                    <div class="threat-count">
+                                        <span class="count-value">98</span>
+                                        <span class="count-label">attacks</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Live Alerts Page -->
+                <section id="alerts-page" class="page">
+                    <div class="alerts-header">
+
+                        <div class="alerts-metrics">
+                            <div class="metric-card">
+                                <div class="metric-icon critical"><i class="fas fa-skull-crossbones"></i></div>
+                                <div class="metric-info">
+                                    <h4>Critical</h4>
+                                    <div class="metric-value">5</div>
+                                </div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-icon high"><i class="fas fa-triangle-exclamation"></i></div>
+                                <div class="metric-info">
+                                    <h4>High</h4>
+                                    <div class="metric-value">8</div>
+                                </div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-icon medium"><i class="fas fa-circle-notch"></i></div>
+                                <div class="metric-info">
+                                    <h4>Medium</h4>
+                                    <div class="metric-value">15</div>
+                                </div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-icon low"><i class="fas fa-info-circle"></i></div>
+                                <div class="metric-info">
+                                    <h4>Low</h4>
+                                    <div class="metric-value">23</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="alerts-search-row">
+                            <div class="input-inline alerts-search-input">
+                                <i class="fas fa-search"></i>
+                                <input type="text" placeholder="Search alerts...">
+                            </div>
+                        </div>
+
+                        <div class="alerts-controls">
+                            <div class="controls">
+                                <button class="btn" onclick="exportLogs()"><i class="fas fa-download"></i>
+                                    Export</button>
+                                <button class="btn btn-filters"><i class="fas fa-sliders"></i> Filters</button>
+
+                                <div class="custom-select" id="severity-select" data-select-type="multi">
+                                    <button class="custom-select-trigger" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-filter"></i>
+                                        <span class="custom-select-label">Severity</span>
+                                        <i class="fas fa-chevron-down custom-select-chevron"></i>
+                                    </button>
+                                    <div class="custom-select-menu" role="menu">
+                                        <div class="custom-select-header">
+                                            <span class="custom-select-title">Severity Filters</span>
+                                        </div>
+                                        <div class="custom-select-options">
+                                            <div class="custom-select-option" data-value="critical">
+                                                <i class="fas fa-skull-crossbones" style="color: var(--critical);"></i>
+                                                <span>Critical</span>
+                                            </div>
+                                            <div class="custom-select-option" data-value="high">
+                                                <i class="fas fa-triangle-exclamation" style="color: var(--high);"></i>
+                                                <span>High</span>
+                                            </div>
+                                            <div class="custom-select-option" data-value="medium">
+                                                <i class="fas fa-circle-notch" style="color: var(--medium);"></i>
+                                                <span>Medium</span>
+                                            </div>
+                                            <div class="custom-select-option" data-value="low">
+                                                <i class="fas fa-info-circle" style="color: var(--low);"></i>
+                                                <span>Low</span>
+                                            </div>
+                                        </div>
+                                        <div class="custom-select-footer">
+                                            <button class="btn custom-select-apply">
+                                                <i class="fas fa-check"></i> Apply
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alerts-container">
+                        <div class="alerts-table-wrapper">
+                            <table class="alerts-table">
+                                <thead>
+                                    <tr>
+                                        <th>Severity</th>
+                                        <th>Type</th>
+                                        <th>Source IP</th>
+                                        <th>Destination IP</th>
+                                        <th>Protocol</th>
+                                        <th>Port</th>
+                                        <th>Timestamp</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="alerts-tbody">
+                                    <!-- Mock Data -->
+                                    <tr class="alert-row critical" data-alert-id="1">
+                                        <td>
+                                            <span class="severity-badge critical">
+                                                <i class="fas fa-circle"></i> Critical
+                                            </span>
+                                        </td>
+                                        <td>Port Scan</td>
+                                        <td class="mono">192.168.1.45</td>
+                                        <td class="mono">192.168.1.1</td>
+                                        <td>TCP</td>
+                                        <td class="mono">Multiple</td>
+                                        <td class="timestamp">2024-11-13 14:23:45</td>
+                                        <td>
+                                            <button class="btn-view" onclick="viewAlertDetails(1)">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr class="alert-row high" data-alert-id="2">
+                                        <td>
+                                            <span class="severity-badge high">
+                                                <i class="fas fa-circle"></i> High
+                                            </span>
+                                        </td>
+                                        <td>ARP Spoofing</td>
+                                        <td class="mono">10.0.0.23</td>
+                                        <td class="mono">10.0.0.1</td>
+                                        <td>ARP</td>
+                                        <td class="mono">-</td>
+                                        <td class="timestamp">2024-11-13 14:18:12</td>
+                                        <td>
+                                            <button class="btn-view" onclick="viewAlertDetails(2)">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr class="alert-row high" data-alert-id="3">
+                                        <td>
+                                            <span class="severity-badge high">
+                                                <i class="fas fa-circle"></i> High
+                                            </span>
+                                        </td>
+                                        <td>MITM Detected</td>
+                                        <td class="mono">172.16.0.88</td>
+                                        <td class="mono">172.16.0.1</td>
+                                        <td>TCP</td>
+                                        <td class="mono">443</td>
+                                        <td class="timestamp">2024-11-13 14:05:33</td>
+                                        <td>
+                                            <button class="btn-view" onclick="viewAlertDetails(3)">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr class="alert-row medium" data-alert-id="4">
+                                        <td>
+                                            <span class="severity-badge medium">
+                                                <i class="fas fa-circle"></i> Medium
+                                            </span>
+                                        </td>
+                                        <td>Anomaly Traffic</td>
+                                        <td class="mono">203.0.113.42</td>
+                                        <td class="mono">192.168.1.100</td>
+                                        <td>UDP</td>
+                                        <td class="mono">53</td>
+                                        <td class="timestamp">2024-11-13 13:47:21</td>
+                                        <td>
+                                            <button class="btn-view" onclick="viewAlertDetails(4)">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr class="alert-row medium" data-alert-id="5">
+                                        <td>
+                                            <span class="severity-badge medium">
+                                                <i class="fas fa-circle"></i> Medium
+                                            </span>
+                                        </td>
+                                        <td>High Packet Rate</td>
+                                        <td class="mono">198.51.100.7</td>
+                                        <td class="mono">192.168.1.50</td>
+                                        <td>TCP</td>
+                                        <td class="mono">80</td>
+                                        <td class="timestamp">2024-11-13 13:32:15</td>
+                                        <td>
+                                            <button class="btn-view" onclick="viewAlertDetails(5)">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr class="alert-row low" data-alert-id="6">
+                                        <td>
+                                            <span class="severity-badge low">
+                                                <i class="fas fa-circle"></i> Info
+                                            </span>
+                                        </td>
+                                        <td>Config Change</td>
+                                        <td class="mono">127.0.0.1</td>
+                                        <td class="mono">127.0.0.1</td>
+                                        <td>-</td>
+                                        <td class="mono">-</td>
+                                        <td class="timestamp">2024-11-13 12:15:08</td>
+                                        <td>
+                                            <button class="btn-view" onclick="viewAlertDetails(6)">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="pagination">
+                            <button class="pagination-btn" id="alerts-prev-btn">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <span class="pagination-info" id="alerts-pagination-info">Page 1 of 1</span>
+                            <button class="pagination-btn" id="alerts-next-btn">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- System Status Page -->
+                <section id="status-page" class="page">
+                    <div class="status-grid">
+                        <div class="status-card">
+                            <div class="status-header">
+                                <div class="status-icon primary">
+                                    <i class="fas fa-network-wired"></i>
+                                </div>
+                                <div class="status-info">
+                                    <h3>Network Sniffer</h3>
+                                    <span class="status-label">Packet Capture Service</span>
+                                </div>
+                            </div>
+                            <div class="status-body">
+                                <div class="status-indicator online">
+                                    <span class="status-dot"></span>
+                                    <span>Online</span>
+                                </div>
+                                <div class="status-metrics">
+                                    <div class="metric">
+                                        <span class="metric-label">Uptime</span>
+                                        <span class="metric-value">15d 6h 23m</span>
+                                    </div>
+                                    <div class="metric">
+                                        <span class="metric-label">Packets/sec</span>
+                                        <span class="metric-value">1,247</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="status-card">
+                            <div class="status-header">
+                                <div class="status-icon success">
+                                    <i class="fas fa-database"></i>
+                                </div>
+                                <div class="status-info">
+                                    <h3>Database</h3>
+                                    <span class="status-label">PostgreSQL Connection</span>
+                                </div>
+                            </div>
+                            <div class="status-body">
+                                <div class="status-indicator online">
+                                    <span class="status-dot"></span>
+                                    <span>Online</span>
+                                </div>
+                                <div class="status-metrics">
+                                    <div class="metric">
+                                        <span class="metric-label">Connections</span>
+                                        <span class="metric-value">23 / 100</span>
+                                    </div>
+                                    <div class="metric">
+                                        <span class="metric-label">Response Time</span>
+                                        <span class="metric-value">12ms</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="status-card">
+                            <div class="status-header">
+                                <div class="status-icon info">
+                                    <i class="fas fa-server"></i>
+                                </div>
+                                <div class="status-info">
+                                    <h3>FastAPI Backend</h3>
+                                    <span class="status-label">REST API Service</span>
+                                </div>
+                            </div>
+                            <div class="status-body">
+                                <div class="status-indicator online">
+                                    <span class="status-dot"></span>
+                                    <span>Online</span>
+                                </div>
+                                <div class="status-metrics">
+                                    <div class="metric">
+                                        <span class="metric-label">Requests/min</span>
+                                        <span class="metric-value">342</span>
+                                    </div>
+                                    <div class="metric">
+                                        <span class="metric-label">Avg Response</span>
+                                        <span class="metric-value">45ms</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="status-card">
+                            <div class="status-header">
+                                <div class="status-icon warning">
+                                    <i class="fas fa-brain"></i>
+                                </div>
+                                <div class="status-info">
+                                    <h3>ML Model</h3>
+                                    <span class="status-label">Anomaly Detection</span>
+                                </div>
+                            </div>
+                            <div class="status-body">
+                                <div class="status-indicator online">
+                                    <span class="status-dot"></span>
+                                    <span>Online</span>
+                                </div>
+                                <div class="status-metrics">
+                                    <div class="metric">
+                                        <span class="metric-label">Model Version</span>
+                                        <span class="metric-value">v1.2.0</span>
+                                    </div>
+                                    <div class="metric">
+                                        <span class="metric-label">Inference Time</span>
+                                        <span class="metric-value">23ms</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="status-card">
+                            <div class="status-header">
+                                <div class="status-icon secondary">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <div class="status-info">
+                                    <h3>Analytics Engine</h3>
+                                    <span class="status-label">Feature Extraction</span>
+                                </div>
+                            </div>
+                            <div class="status-body">
+                                <div class="status-indicator online">
+                                    <span class="status-dot"></span>
+                                    <span>Online</span>
+                                </div>
+                                <div class="status-metrics">
+                                    <div class="metric">
+                                        <span class="metric-label">Queue Size</span>
+                                        <span class="metric-value">45</span>
+                                    </div>
+                                    <div class="metric">
+                                        <span class="metric-label">Processing Rate</span>
+                                        <span class="metric-value">892/min</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="status-card">
+                            <div class="status-header">
+                                <div class="status-icon danger">
+                                    <i class="fas fa-shield-halved"></i>
+                                </div>
+                                <div class="status-info">
+                                    <h3>Rule Engine</h3>
+                                    <span class="status-label">Signature-based IDS</span>
+                                </div>
+                            </div>
+                            <div class="status-body">
+                                <div class="status-indicator offline">
+                                    <span class="status-dot"></span>
+                                    <span>Offline</span>
+                                </div>
+                                <div class="status-metrics">
+                                    <div class="metric">
+                                        <span class="metric-label">Last Seen</span>
+                                        <span class="metric-value">2m ago</span>
+                                    </div>
+                                    <div class="metric">
+                                        <span class="metric-label">Status</span>
+                                        <span class="metric-value">Restarting...</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- System Resources -->
+                    <div class="resources-section">
+                        <div class="resource-card">
+                            <div class="card-header">
+                                <h3>System Resources</h3>
+                            </div>
+                            <div class="resource-list">
+                                <div class="resource-item">
+                                    <div class="resource-info">
+                                        <span class="resource-label">CPU Usage</span>
+                                        <span class="resource-value">45%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 45%; background: var(--info);"></div>
+                                    </div>
+                                </div>
+                                <div class="resource-item">
+                                    <div class="resource-info">
+                                        <span class="resource-label">Memory Usage</span>
+                                        <span class="resource-value">62%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 62%; background: var(--warning);">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="resource-item">
+                                    <div class="resource-info">
+                                        <span class="resource-label">Disk Usage</span>
+                                        <span class="resource-value">34%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 34%; background: var(--success);">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="resource-item">
+                                    <div class="resource-info">
+                                        <span class="resource-label">Network I/O</span>
+                                        <span class="resource-value">28 MB/s</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 75%; background: var(--primary);">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- System Logs Page -->
+                <section id="logs-page" class="page">
+                    <div class="logs-controls">
+                        <div class="logs-filters">
+                            <div class="custom-select" id="services-select" data-placeholder="Services" data-select-type="multi">
+                                <button class="custom-select-trigger" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-server"></i>
+                                    <span class="custom-select-label">All Services</span>
+                                    <i class="fas fa-chevron-down custom-select-chevron"></i>
+                                </button>
+                                <div class="custom-select-menu" role="menu">
+                                    <div class="custom-select-header">
+                                        <span class="custom-select-title">Filter by Service</span>
+                                    </div>
+                                    <div class="custom-select-options">
+                                        <div class="custom-select-option active" data-value="all"><span>All Services</span></div>
+                                        <div class="custom-select-option" data-value="sniffer"><span>Network Sniffer</span></div>
+                                        <div class="custom-select-option" data-value="fastapi"><span>FastAPI</span></div>
+                                        <div class="custom-select-option" data-value="ml"><span>ML Model</span></div>
+                                        <div class="custom-select-option" data-value="db"><span>Database</span></div>
+                                    </div>
+                                    <div class="custom-select-footer">
+                                        <button class="btn custom-select-apply"><i class="fas fa-check"></i> Apply</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="custom-select" id="levels-select" data-placeholder="Levels" data-select-type="multi">
+                                <button class="custom-select-trigger" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-layer-group"></i>
+                                    <span class="custom-select-label">All Levels</span>
+                                    <i class="fas fa-chevron-down custom-select-chevron"></i>
+                                </button>
+                                <div class="custom-select-menu" role="menu">
+                                    <div class="custom-select-header">
+                                        <span class="custom-select-title">Filter by Level</span>
+                                    </div>
+                                    <div class="custom-select-options">
+                                        <div class="custom-select-option active" data-value="all"><span>All Levels</span></div>
+                                        <div class="custom-select-option" data-value="error"><span>ERROR</span></div>
+                                        <div class="custom-select-option" data-value="warn"><span>WARN</span></div>
+                                        <div class="custom-select-option" data-value="info"><span>INFO</span></div>
+                                        <div class="custom-select-option" data-value="debug"><span>DEBUG</span></div>
+                                    </div>
+                                    <div class="custom-select-footer">
+                                        <button class="btn custom-select-apply"><i class="fas fa-check"></i> Apply</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="text" class="logs-search" placeholder="Search logs...">
+                        </div>
+                        <div class="logs-actions">
+                            <button class="btn btn-secondary">
+                                <i class="fas fa-rotate"></i>
+                                Refresh
+                            </button>
+                            <button class="btn btn-primary">
+                                <i class="fas fa-download"></i>
+                                Export
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="logs-container">
+                        <div class="log-entry error">
+                            <div class="log-time">14:23:45.234</div>
+                            <div class="log-level error">ERROR</div>
+                            <div class="log-service">Rule Engine</div>
+                            <div class="log-message">Connection to signature database failed: timeout after 30s</div>
+                        </div>
+                        <div class="log-entry warn">
+                            <div class="log-time">14:22:12.891</div>
+                            <div class="log-level warn">WARN</div>
+                            <div class="log-service">ML Model</div>
+                            <div class="log-message">High inference latency detected: 245ms (threshold: 100ms)</div>
+                        </div>
+                        <div class="log-entry info">
+                            <div class="log-time">14:20:33.567</div>
+                            <div class="log-level info">INFO</div>
+                            <div class="log-service">Network Sniffer</div>
+                            <div class="log-message">Captured 15,247 packets from interface eth0 in last minute</div>
+                        </div>
+                        <div class="log-entry info">
+                            <div class="log-time">14:18:45.123</div>
+                            <div class="log-level info">INFO</div>
+                            <div class="log-service">FastAPI</div>
+                            <div class="log-message">POST /api/alerts - 201 Created (23ms)</div>
+                        </div>
+                        <div class="log-entry debug">
+                            <div class="log-time">14:17:22.456</div>
+                            <div class="log-level debug">DEBUG</div>
+                            <div class="log-service">Analytics</div>
+                            <div class="log-message">Feature extraction completed: window_size=60s, features_count=15
+                            </div>
+                        </div>
+                        <div class="log-entry info">
+                            <div class="log-time">14:15:11.789</div>
+                            <div class="log-level info">INFO</div>
+                            <div class="log-service">Database</div>
+                            <div class="log-message">Inserted 342 telemetry records into telemetry_events table</div>
+                        </div>
+                        <div class="log-entry warn">
+                            <div class="log-time">14:12:08.234</div>
+                            <div class="log-level warn">WARN</div>
+                            <div class="log-service">Network Sniffer</div>
+                            <div class="log-message">Packet drop detected: buffer overflow, 23 packets lost</div>
+                        </div>
+                        <div class="log-entry info">
+                            <div class="log-time">14:10:45.567</div>
+                            <div class="log-level info">INFO</div>
+                            <div class="log-service">ML Model</div>
+                            <div class="log-message">Model inference: anomaly_score=0.87, prediction=MALICIOUS</div>
+                        </div>
+                        <div class="log-entry info">
+                            <div class="log-time">14:08:33.891</div>
+                            <div class="log-level info">INFO</div>
+                            <div class="log-service">FastAPI</div>
+                            <div class="log-message">GET /api/telemetry?limit=100 - 200 OK (45ms)</div>
+                        </div>
+                        <div class="log-entry debug">
+                            <div class="log-time">14:05:12.123</div>
+                            <div class="log-level debug">DEBUG</div>
+                            <div class="log-service">Analytics</div>
+                            <div class="log-message">Calculated metrics: pkts/sec=247, bytes/sec=18923, syn_rate=0.34
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="logs-footer">
+                        <div class="pagination">
+                            <button class="pagination-btn" id="logs-prev-btn">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <span class="pagination-info" id="logs-pagination-info">Page 1 of 1</span>
+                            <button class="pagination-btn" id="logs-next-btn">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal for Alert Details -->
+    <div id="alert-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Alert Details</h3>
+                <button class="modal-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Dynamic content will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>

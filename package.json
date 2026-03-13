@@ -1,0 +1,49 @@
+{
+  "name": "dexter",
+  "version": "1.0.0",
+  "description": "Dexter AI-Powered Intrusion Detection System",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "dist": "electron-builder --win",
+    "dist:dir": "electron-builder --win --dir"
+  },
+  "build": {
+    "appId": "com.dexter.ids",
+    "productName": "Dexter",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "dashboard/**/*",
+      "build/icon.ico"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.ico",
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": true,
+      "allowToChangeInstallationDirectory": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Dexter"
+    }
+  },
+  "keywords": [
+    "ids",
+    "security",
+    "dashboard",
+    "electron"
+  ],
+  "author": "Dexter Team",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^40.4.1",
+    "electron-builder": "^26.7.0"
+  }
+}

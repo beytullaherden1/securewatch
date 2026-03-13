@@ -1,0 +1,64 @@
+@media (max-width: 1200px) {
+    .charts-section {
+        grid-template-columns: 1fr;
+    }
+
+    .bottom-section {
+        grid-template-columns: 1fr;
+    }
+
+    .status-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --sidebar-width: 70px;
+    }
+
+    .sidebar {
+        width: var(--sidebar-width);
+    }
+
+    .logo h1,
+    .version,
+    .nav-item span,
+    .sidebar-footer span {
+        display: none;
+    }
+
+    .nav-item {
+        justify-content: center;
+        padding: 0.875rem;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .header-right {
+        gap: 0.5rem;
+    }
+
+    .search-box {
+        width: 200px;
+    }
+
+    .user-profile span {
+        display: none;
+    }
+
+    .alerts-metrics {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .alerts-header {
+        grid-template-columns: 1fr;
+    }
+
+    .log-entry {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+}
