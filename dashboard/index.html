@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dexter - AI Security Dashboard</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 </head>
@@ -31,7 +32,7 @@
                 <a href="#alerts" class="nav-item" data-page="alerts">
                     <i class="fas fa-triangle-exclamation"></i>
                     <span>Live Alerts</span>
-                    <span class="badge">12</span>
+                    <span class="badge">20</span>
                     <div class="inf-box">Live Alerts</div>
                 </a>
                 <a href="#status" class="nav-item" data-page="status">
@@ -381,28 +382,28 @@
                                 <div class="metric-icon critical"><i class="fas fa-skull-crossbones"></i></div>
                                 <div class="metric-info">
                                     <h4>Critical</h4>
-                                    <div class="metric-value">5</div>
+                                    <div class="metric-value" id="metric-critical">5</div>
                                 </div>
                             </div>
                             <div class="metric-card">
                                 <div class="metric-icon high"><i class="fas fa-triangle-exclamation"></i></div>
                                 <div class="metric-info">
                                     <h4>High</h4>
-                                    <div class="metric-value">8</div>
+                                    <div class="metric-value" id="metric-high">6</div>
                                 </div>
                             </div>
                             <div class="metric-card">
                                 <div class="metric-icon medium"><i class="fas fa-circle-notch"></i></div>
                                 <div class="metric-info">
                                     <h4>Medium</h4>
-                                    <div class="metric-value">15</div>
+                                    <div class="metric-value" id="metric-medium">5</div>
                                 </div>
                             </div>
                             <div class="metric-card">
                                 <div class="metric-icon low"><i class="fas fa-info-circle"></i></div>
                                 <div class="metric-info">
                                     <h4>Low</h4>
-                                    <div class="metric-value">23</div>
+                                    <div class="metric-value" id="metric-low">4</div>
                                 </div>
                             </div>
                         </div>
@@ -416,7 +417,7 @@
 
                         <div class="alerts-controls">
                             <div class="controls">
-                                <button class="btn" onclick="exportLogs()"><i class="fas fa-download"></i>
+                                <button class="btn" onclick="exportAllAlerts()"><i class="fas fa-download"></i>
                                     Export</button>
                                 <button class="btn btn-filters"><i class="fas fa-sliders"></i> Filters</button>
 
@@ -475,115 +476,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="alerts-tbody">
-                                    <!-- Mock Data -->
-                                    <tr class="alert-row critical" data-alert-id="1">
-                                        <td>
-                                            <span class="severity-badge critical">
-                                                <i class="fas fa-circle"></i> Critical
-                                            </span>
-                                        </td>
-                                        <td>Port Scan</td>
-                                        <td class="mono">192.168.1.45</td>
-                                        <td class="mono">192.168.1.1</td>
-                                        <td>TCP</td>
-                                        <td class="mono">Multiple</td>
-                                        <td class="timestamp">2024-11-13 14:23:45</td>
-                                        <td>
-                                            <button class="btn-view" onclick="viewAlertDetails(1)">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr class="alert-row high" data-alert-id="2">
-                                        <td>
-                                            <span class="severity-badge high">
-                                                <i class="fas fa-circle"></i> High
-                                            </span>
-                                        </td>
-                                        <td>ARP Spoofing</td>
-                                        <td class="mono">10.0.0.23</td>
-                                        <td class="mono">10.0.0.1</td>
-                                        <td>ARP</td>
-                                        <td class="mono">-</td>
-                                        <td class="timestamp">2024-11-13 14:18:12</td>
-                                        <td>
-                                            <button class="btn-view" onclick="viewAlertDetails(2)">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr class="alert-row high" data-alert-id="3">
-                                        <td>
-                                            <span class="severity-badge high">
-                                                <i class="fas fa-circle"></i> High
-                                            </span>
-                                        </td>
-                                        <td>MITM Detected</td>
-                                        <td class="mono">172.16.0.88</td>
-                                        <td class="mono">172.16.0.1</td>
-                                        <td>TCP</td>
-                                        <td class="mono">443</td>
-                                        <td class="timestamp">2024-11-13 14:05:33</td>
-                                        <td>
-                                            <button class="btn-view" onclick="viewAlertDetails(3)">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr class="alert-row medium" data-alert-id="4">
-                                        <td>
-                                            <span class="severity-badge medium">
-                                                <i class="fas fa-circle"></i> Medium
-                                            </span>
-                                        </td>
-                                        <td>Anomaly Traffic</td>
-                                        <td class="mono">203.0.113.42</td>
-                                        <td class="mono">192.168.1.100</td>
-                                        <td>UDP</td>
-                                        <td class="mono">53</td>
-                                        <td class="timestamp">2024-11-13 13:47:21</td>
-                                        <td>
-                                            <button class="btn-view" onclick="viewAlertDetails(4)">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr class="alert-row medium" data-alert-id="5">
-                                        <td>
-                                            <span class="severity-badge medium">
-                                                <i class="fas fa-circle"></i> Medium
-                                            </span>
-                                        </td>
-                                        <td>High Packet Rate</td>
-                                        <td class="mono">198.51.100.7</td>
-                                        <td class="mono">192.168.1.50</td>
-                                        <td>TCP</td>
-                                        <td class="mono">80</td>
-                                        <td class="timestamp">2024-11-13 13:32:15</td>
-                                        <td>
-                                            <button class="btn-view" onclick="viewAlertDetails(5)">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr class="alert-row low" data-alert-id="6">
-                                        <td>
-                                            <span class="severity-badge low">
-                                                <i class="fas fa-circle"></i> Info
-                                            </span>
-                                        </td>
-                                        <td>Config Change</td>
-                                        <td class="mono">127.0.0.1</td>
-                                        <td class="mono">127.0.0.1</td>
-                                        <td>-</td>
-                                        <td class="mono">-</td>
-                                        <td class="timestamp">2024-11-13 12:15:08</td>
-                                        <td>
-                                            <button class="btn-view" onclick="viewAlertDetails(6)">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
+                                    <!-- Dynamically rendered from mockAlerts -->
                                 </tbody>
                             </table>
                         </div>

@@ -1,56 +1,149 @@
-// Mock Alert Data
+// ============================================
+// Dexter IDS — Mock Alert Data
+// ============================================
 const mockAlerts = [
     {
-        id: 1,
-        severity: 'critical',
-        type: 'Port Scan',
-        sourceIp: '192.168.1.45',
-        destIp: '192.168.1.1',
-        protocol: 'TCP',
-        port: 'Multiple',
-        timestamp: '2024-11-13 14:23:45',
-        details: {
-            description: 'Multiple port scanning activity detected from source IP',
-            portsScanned: '22, 80, 443, 8080, 3306, 5432',
-            packetsCount: 247,
-            duration: '45 seconds',
-            rawJson: {
-                event_id: 'EVT-001',
-                timestamp: '2024-11-13T14:23:45.234Z',
-                source_ip: '192.168.1.45',
-                destination_ip: '192.168.1.1',
-                protocol: 'TCP',
-                alert_type: 'port_scan',
-                severity: 'critical',
-                confidence: 0.95
-            }
-        }
+        id: 1, severity: 'critical', type: 'Port Scan', sourceIp: '192.168.1.45', destIp: '192.168.1.1',
+        protocol: 'TCP', port: 'Multiple', timestamp: '2024-11-13 14:23:45',
+        details: { description: 'Sequential port scanning detected across 1024+ ports from a single source within 45 seconds.', portsScanned: '22, 80, 443, 8080, 3306, 5432', packetsCount: 247, duration: '45 seconds',
+            rawJson: { event_id: 'EVT-001', timestamp: '2024-11-13T14:23:45.234Z', source_ip: '192.168.1.45', destination_ip: '192.168.1.1', protocol: 'TCP', alert_type: 'port_scan', severity: 'critical', confidence: 0.95 } }
     },
     {
-        id: 2,
-        severity: 'high',
-        type: 'ARP Spoofing',
-        sourceIp: '10.0.0.23',
-        destIp: '10.0.0.1',
-        protocol: 'ARP',
-        port: '-',
-        timestamp: '2024-11-13 14:18:12',
-        details: {
-            description: 'ARP spoofing attack detected - MAC address mismatch',
-            originalMac: 'aa:bb:cc:dd:ee:ff',
-            spoofedMac: '11:22:33:44:55:66',
-            interface: 'eth0',
-            rawJson: {
-                event_id: 'EVT-002',
-                timestamp: '2024-11-13T14:18:12.891Z',
-                source_ip: '10.0.0.23',
-                alert_type: 'arp_spoof',
-                severity: 'high',
-                confidence: 0.89
-            }
-        }
+        id: 2, severity: 'high', type: 'ARP Spoofing', sourceIp: '10.0.0.23', destIp: '10.0.0.1',
+        protocol: 'ARP', port: '-', timestamp: '2024-11-13 14:18:12',
+        details: { description: 'ARP reply received with MAC address mismatch — possible man-in-the-middle preparation.', originalMac: 'aa:bb:cc:dd:ee:ff', spoofedMac: '11:22:33:44:55:66', interface: 'eth0',
+            rawJson: { event_id: 'EVT-002', timestamp: '2024-11-13T14:18:12.891Z', source_ip: '10.0.0.23', alert_type: 'arp_spoof', severity: 'high', confidence: 0.89 } }
+    },
+    {
+        id: 3, severity: 'high', type: 'MITM Detected', sourceIp: '172.16.0.88', destIp: '172.16.0.1',
+        protocol: 'TCP', port: '443', timestamp: '2024-11-13 14:05:33',
+        details: { description: 'SSL certificate mismatch during TLS handshake — potential man-in-the-middle interception.', 
+            rawJson: { event_id: 'EVT-003', timestamp: '2024-11-13T14:05:33.012Z', source_ip: '172.16.0.88', destination_ip: '172.16.0.1', protocol: 'TCP', port: 443, alert_type: 'mitm', severity: 'high', confidence: 0.92 } }
+    },
+    {
+        id: 4, severity: 'medium', type: 'DNS Tunneling', sourceIp: '203.0.113.42', destIp: '192.168.1.100',
+        protocol: 'UDP', port: '53', timestamp: '2024-11-13 13:47:21',
+        details: { description: 'Abnormally long DNS queries detected — possible data exfiltration via DNS tunneling.',
+            rawJson: { event_id: 'EVT-004', timestamp: '2024-11-13T13:47:21.445Z', source_ip: '203.0.113.42', destination_ip: '192.168.1.100', protocol: 'UDP', port: 53, alert_type: 'dns_tunnel', severity: 'medium', confidence: 0.78 } }
+    },
+    {
+        id: 5, severity: 'medium', type: 'High Packet Rate', sourceIp: '198.51.100.7', destIp: '192.168.1.50',
+        protocol: 'TCP', port: '80', timestamp: '2024-11-13 13:32:15',
+        details: { description: 'Packet rate exceeded threshold (5000 pkt/s) — possible volumetric attack or misconfigured service.',
+            rawJson: { event_id: 'EVT-005', timestamp: '2024-11-13T13:32:15.678Z', source_ip: '198.51.100.7', destination_ip: '192.168.1.50', protocol: 'TCP', port: 80, alert_type: 'high_packet_rate', severity: 'medium', confidence: 0.74 } }
+    },
+    {
+        id: 6, severity: 'low', type: 'Config Change', sourceIp: '127.0.0.1', destIp: '127.0.0.1',
+        protocol: '-', port: '-', timestamp: '2024-11-13 12:15:08',
+        details: { description: 'Firewall rule set updated by admin — 3 rules added, 1 removed.',
+            rawJson: { event_id: 'EVT-006', timestamp: '2024-11-13T12:15:08.901Z', source_ip: '127.0.0.1', alert_type: 'config_change', severity: 'low', confidence: 1.0 } }
+    },
+    {
+        id: 7, severity: 'critical', type: 'SQL Injection', sourceIp: '45.33.32.156', destIp: '192.168.1.10',
+        protocol: 'TCP', port: '3306', timestamp: '2024-11-13 11:58:42',
+        details: { description: 'Malicious SQL payload detected in HTTP POST body targeting login endpoint.',
+            rawJson: { event_id: 'EVT-007', timestamp: '2024-11-13T11:58:42.123Z', source_ip: '45.33.32.156', destination_ip: '192.168.1.10', protocol: 'TCP', port: 3306, alert_type: 'sql_injection', severity: 'critical', confidence: 0.97 } }
+    },
+    {
+        id: 8, severity: 'high', type: 'Brute Force', sourceIp: '185.220.101.34', destIp: '192.168.1.5',
+        protocol: 'TCP', port: '22', timestamp: '2024-11-13 11:45:19',
+        details: { description: '847 failed SSH login attempts in 10 minutes from single IP — brute force attack.',
+            rawJson: { event_id: 'EVT-008', timestamp: '2024-11-13T11:45:19.567Z', source_ip: '185.220.101.34', destination_ip: '192.168.1.5', protocol: 'TCP', port: 22, alert_type: 'brute_force', severity: 'high', confidence: 0.96 } }
+    },
+    {
+        id: 9, severity: 'critical', type: 'Ransomware C2', sourceIp: '192.168.1.87', destIp: '91.215.85.121',
+        protocol: 'TCP', port: '8443', timestamp: '2024-11-13 11:30:05',
+        details: { description: 'Outbound connection to known ransomware command-and-control server detected.',
+            rawJson: { event_id: 'EVT-009', timestamp: '2024-11-13T11:30:05.234Z', source_ip: '192.168.1.87', destination_ip: '91.215.85.121', protocol: 'TCP', port: 8443, alert_type: 'c2_communication', severity: 'critical', confidence: 0.99 } }
+    },
+    {
+        id: 10, severity: 'medium', type: 'ICMP Flood', sourceIp: '10.0.0.55', destIp: '192.168.1.1',
+        protocol: 'ICMP', port: '-', timestamp: '2024-11-13 11:12:33',
+        details: { description: 'ICMP echo request flood detected — 12,000 packets/sec targeting gateway.',
+            rawJson: { event_id: 'EVT-010', timestamp: '2024-11-13T11:12:33.891Z', source_ip: '10.0.0.55', destination_ip: '192.168.1.1', protocol: 'ICMP', alert_type: 'icmp_flood', severity: 'medium', confidence: 0.82 } }
+    },
+    {
+        id: 11, severity: 'high', type: 'XSS Attempt', sourceIp: '203.0.113.91', destIp: '192.168.1.10',
+        protocol: 'TCP', port: '80', timestamp: '2024-11-13 10:55:17',
+        details: { description: 'Reflected XSS payload detected in URL query parameter on web application.',
+            rawJson: { event_id: 'EVT-011', timestamp: '2024-11-13T10:55:17.345Z', source_ip: '203.0.113.91', destination_ip: '192.168.1.10', protocol: 'TCP', port: 80, alert_type: 'xss', severity: 'high', confidence: 0.88 } }
+    },
+    {
+        id: 12, severity: 'low', type: 'New Device', sourceIp: '192.168.1.201', destIp: '192.168.1.1',
+        protocol: 'DHCP', port: '67', timestamp: '2024-11-13 10:40:09',
+        details: { description: 'New device joined network via DHCP — MAC: f4:5c:89:a2:b3:c7, hostname: DESKTOP-X7K2.',
+            rawJson: { event_id: 'EVT-012', timestamp: '2024-11-13T10:40:09.678Z', source_ip: '192.168.1.201', alert_type: 'new_device', severity: 'low', confidence: 1.0 } }
+    },
+    {
+        id: 13, severity: 'critical', type: 'Data Exfiltration', sourceIp: '192.168.1.30', destIp: '198.51.100.44',
+        protocol: 'TCP', port: '443', timestamp: '2024-11-13 10:22:51',
+        details: { description: 'Large outbound data transfer (2.3 GB) to external IP over encrypted channel — anomaly score 0.96.',
+            rawJson: { event_id: 'EVT-013', timestamp: '2024-11-13T10:22:51.012Z', source_ip: '192.168.1.30', destination_ip: '198.51.100.44', protocol: 'TCP', port: 443, alert_type: 'data_exfiltration', severity: 'critical', confidence: 0.96 } }
+    },
+    {
+        id: 14, severity: 'medium', type: 'SYN Flood', sourceIp: '45.76.134.89', destIp: '192.168.1.10',
+        protocol: 'TCP', port: '80', timestamp: '2024-11-13 10:05:38',
+        details: { description: 'TCP SYN flood detected — 8,500 half-open connections in 30 seconds.',
+            rawJson: { event_id: 'EVT-014', timestamp: '2024-11-13T10:05:38.456Z', source_ip: '45.76.134.89', destination_ip: '192.168.1.10', protocol: 'TCP', port: 80, alert_type: 'syn_flood', severity: 'medium', confidence: 0.85 } }
+    },
+    {
+        id: 15, severity: 'high', type: 'Privilege Escalation', sourceIp: '192.168.1.15', destIp: '192.168.1.5',
+        protocol: 'TCP', port: '445', timestamp: '2024-11-13 09:48:22',
+        details: { description: 'SMB exploit attempt detected — EternalBlue signature matched (CVE-2017-0144).',
+            rawJson: { event_id: 'EVT-015', timestamp: '2024-11-13T09:48:22.789Z', source_ip: '192.168.1.15', destination_ip: '192.168.1.5', protocol: 'TCP', port: 445, alert_type: 'privilege_escalation', severity: 'high', confidence: 0.93 } }
+    },
+    {
+        id: 16, severity: 'low', type: 'Policy Violation', sourceIp: '192.168.1.67', destIp: '104.16.85.20',
+        protocol: 'TCP', port: '443', timestamp: '2024-11-13 09:30:11',
+        details: { description: 'Access to blocked category (gambling) detected from internal host.',
+            rawJson: { event_id: 'EVT-016', timestamp: '2024-11-13T09:30:11.234Z', source_ip: '192.168.1.67', destination_ip: '104.16.85.20', protocol: 'TCP', port: 443, alert_type: 'policy_violation', severity: 'low', confidence: 1.0 } }
+    },
+    {
+        id: 17, severity: 'medium', type: 'Suspicious User-Agent', sourceIp: '185.156.73.22', destIp: '192.168.1.10',
+        protocol: 'TCP', port: '80', timestamp: '2024-11-13 09:15:44',
+        details: { description: 'HTTP request with known malicious user-agent string "python-requests/2.28 (bot-scanner)".',
+            rawJson: { event_id: 'EVT-017', timestamp: '2024-11-13T09:15:44.567Z', source_ip: '185.156.73.22', destination_ip: '192.168.1.10', protocol: 'TCP', port: 80, alert_type: 'suspicious_ua', severity: 'medium', confidence: 0.71 } }
+    },
+    {
+        id: 18, severity: 'high', type: 'Reverse Shell', sourceIp: '192.168.1.42', destIp: '23.94.168.5',
+        protocol: 'TCP', port: '4444', timestamp: '2024-11-13 08:58:30',
+        details: { description: 'Outbound TCP connection on port 4444 with shell-like interactive traffic pattern.',
+            rawJson: { event_id: 'EVT-018', timestamp: '2024-11-13T08:58:30.891Z', source_ip: '192.168.1.42', destination_ip: '23.94.168.5', protocol: 'TCP', port: 4444, alert_type: 'reverse_shell', severity: 'high', confidence: 0.94 } }
+    },
+    {
+        id: 19, severity: 'critical', type: 'Zero-Day Exploit', sourceIp: '103.224.182.7', destIp: '192.168.1.10',
+        protocol: 'TCP', port: '443', timestamp: '2024-11-13 08:40:15',
+        details: { description: 'Unknown exploit payload matched heuristic signatures — buffer overflow in web server.',
+            rawJson: { event_id: 'EVT-019', timestamp: '2024-11-13T08:40:15.123Z', source_ip: '103.224.182.7', destination_ip: '192.168.1.10', protocol: 'TCP', port: 443, alert_type: 'zero_day', severity: 'critical', confidence: 0.91 } }
+    },
+    {
+        id: 20, severity: 'low', type: 'Cert Expiry Warning', sourceIp: '192.168.1.10', destIp: '-',
+        protocol: '-', port: '443', timestamp: '2024-11-13 08:00:00',
+        details: { description: 'TLS certificate for *.dexter.local expires in 7 days — renewal required.',
+            rawJson: { event_id: 'EVT-020', timestamp: '2024-11-13T08:00:00.000Z', source_ip: '192.168.1.10', alert_type: 'cert_expiry', severity: 'low', confidence: 1.0 } }
     }
 ];
+
+// ====================================
+// Render Alerts Table from mockAlerts
+// ====================================
+function renderAlertsTable() {
+    const tbody = document.getElementById('alerts-tbody');
+    if (!tbody) return;
+    const severityLabel = { critical: 'Critical', high: 'High', medium: 'Medium', low: 'Info' };
+    tbody.innerHTML = mockAlerts.map(a => `
+        <tr class="alert-row ${a.severity}" data-alert-id="${a.id}">
+            <td><span class="severity-badge ${a.severity}"><i class="fas fa-circle"></i> ${severityLabel[a.severity] || a.severity}</span></td>
+            <td>${a.type}</td>
+            <td class="mono">${a.sourceIp}</td>
+            <td class="mono">${a.destIp}</td>
+            <td>${a.protocol}</td>
+            <td class="mono">${a.port}</td>
+            <td class="timestamp">${a.timestamp}</td>
+            <td><button class="btn-view" onclick="viewAlertDetails(${a.id})"><i class="fas fa-eye"></i></button></td>
+        </tr>
+    `).join('');
+}
 
 // ====================================
 // Navigation
@@ -254,8 +347,14 @@ function exportAlert(alertId) {
 }
 
 function blockSource(ip) {
-    alert(`Source IP ${ip} has been blocked. (This is a mock action)`);
-    closeModal();
+    const modal = document.getElementById('alert-modal');
+    const modalBody = modal?.querySelector('.modal-body');
+    if (modalBody) {
+        const banner = document.createElement('div');
+        banner.style.cssText = 'background:var(--bg-darker);border:1px solid var(--success);border-radius:8px;padding:1rem;margin-top:1rem;color:var(--success);text-align:center;';
+        banner.innerHTML = `<i class="fas fa-check-circle"></i> Source IP <strong>${ip}</strong> has been added to blocklist.`;
+        modalBody.appendChild(banner);
+    }
 }
 
 // ====================================
@@ -468,7 +567,30 @@ function generateRandomData(count) {
 // Export Functions
 // ====================================
 function exportLogs() {
-    alert('Export logs functionality - To be implemented with backend integration');
+    const entries = document.querySelectorAll('.logs-container .log-entry');
+    const data = Array.from(entries).map(el => ({
+        time: el.querySelector('.log-time')?.textContent?.trim() || '',
+        level: el.querySelector('.log-level')?.textContent?.trim() || '',
+        service: el.querySelector('.log-service')?.textContent?.trim() || '',
+        message: el.querySelector('.log-message')?.textContent?.trim() || ''
+    }));
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `dexter_logs_${Date.now()}.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+}
+
+function exportAllAlerts() {
+    const blob = new Blob([JSON.stringify(mockAlerts, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `dexter_alerts_${Date.now()}.json`;
+    link.click();
+    URL.revokeObjectURL(url);
 }
 
 // ====================================
@@ -493,6 +615,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize navigation
     initNavigation();
     
+    // Render alerts table from data
+    renderAlertsTable();
+    
     // Initialize charts
     initCharts();
     
@@ -514,8 +639,10 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Start real-time updates simulation
     simulateRealTimeUpdates();
-    
-    console.log('✅ Dexter Dashboard Initialized');
+
+    // Update alert badge with actual count
+    const badge = document.querySelector('.nav-item .badge');
+    if (badge) badge.textContent = mockAlerts.length;
 
     // Minimal scroll listener for header shadow
     const topHeader = document.querySelector('.top-header');
@@ -704,8 +831,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (applyBtn) {
             applyBtn.addEventListener('click', () => {
-                console.log(`${selectId} Apply:`, selectedValues);
-                // Emit an apply event with the selected values
                 selectEl.dispatchEvent(new CustomEvent('custom-select:apply', {
                     detail: { values: [...selectedValues] }
                 }));
@@ -914,8 +1039,8 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const getVisibleLogEntries = () => {
-        // Entries filtered out by applyLogsFilter set display:none; exclude those
-        return logsPaginationState.allLogEntries.filter(entry => entry.style.display !== 'none');
+        return logsPaginationState.allLogEntries.filter(entry => 
+            entry.style.display !== 'none' && !entry.classList.contains('search-hidden'));
     };
 
     const getTotalLogsPages = () => {
@@ -1012,8 +1137,8 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const getVisibleAlertRows = () => {
-        // Rows excluded by filter get 'alerts-filtered-out'; paginate over the rest
-        return alertsPaginationState.allRows.filter(row => !row.classList.contains('alerts-filtered-out'));
+        return alertsPaginationState.allRows.filter(row => 
+            !row.classList.contains('alerts-filtered-out') && !row.classList.contains('search-hidden'));
     };
 
     const getTotalAlertsPages = () => {
@@ -1064,6 +1189,66 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     initAlertsPagination();
+
+    // ====================================
+    // Global Search (header search box)
+    // ====================================
+    const headerSearchInput = document.querySelector('.search-box input');
+    if (headerSearchInput) {
+        headerSearchInput.addEventListener('input', () => {
+            const query = headerSearchInput.value.trim().toLowerCase();
+            // Search alerts table
+            const rows = document.querySelectorAll('#alerts-tbody tr');
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.classList.toggle('search-hidden', query.length > 0 && !text.includes(query));
+            });
+            // Update pagination
+            if (alertsPaginationState) {
+                alertsPaginationState.currentPage = 1;
+                renderAlertsPage();
+            }
+            // If query is not empty, switch to alerts page
+            if (query.length > 0) {
+                const alertsNav = document.querySelector('[data-page="alerts"]');
+                if (alertsNav) alertsNav.click();
+            }
+        });
+    }
+
+    // Alerts page search
+    const alertsSearchInput = document.querySelector('.alerts-search-input input');
+    if (alertsSearchInput) {
+        alertsSearchInput.addEventListener('input', () => {
+            const query = alertsSearchInput.value.trim().toLowerCase();
+            const rows = document.querySelectorAll('#alerts-tbody tr');
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.classList.toggle('search-hidden', query.length > 0 && !text.includes(query));
+            });
+            if (alertsPaginationState) {
+                alertsPaginationState.currentPage = 1;
+                renderAlertsPage();
+            }
+        });
+    }
+
+    // Logs search
+    const logsSearchInput = document.querySelector('.logs-search');
+    if (logsSearchInput) {
+        logsSearchInput.addEventListener('input', () => {
+            const query = logsSearchInput.value.trim().toLowerCase();
+            const entries = document.querySelectorAll('.logs-container .log-entry');
+            entries.forEach(entry => {
+                const text = entry.textContent.toLowerCase();
+                entry.classList.toggle('search-hidden', query.length > 0 && !text.includes(query));
+            });
+            if (logsPaginationState) {
+                logsPaginationState.currentPage = 1;
+                renderLogsPage();
+            }
+        });
+    }
 });
 
 const style = document.createElement('style');

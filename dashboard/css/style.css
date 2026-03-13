@@ -1742,6 +1742,14 @@ main {
     display: none !important;
 }
 
+.alerts-table tbody tr.search-hidden {
+    display: none !important;
+}
+
+.log-entry.search-hidden {
+    display: none !important;
+}
+
 .alerts-table tbody tr:hover {
     background: var(--bg-darker);
 }
