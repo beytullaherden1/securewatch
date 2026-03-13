@@ -1,5 +1,5 @@
 // ============================================
-// Dexter IDS — Mock Alert Data
+// SecureWatch — Mock Alert Data
 // ============================================
 const mockAlerts = [
     {
@@ -119,7 +119,7 @@ const mockAlerts = [
     {
         id: 20, severity: 'low', type: 'Cert Expiry Warning', sourceIp: '192.168.1.10', destIp: '-',
         protocol: '-', port: '443', timestamp: '2024-11-13 08:00:00',
-        details: { description: 'TLS certificate for *.dexter.local expires in 7 days — renewal required.',
+        details: { description: 'TLS certificate for *.internal.local expires in 7 days — renewal required.',
             rawJson: { event_id: 'EVT-020', timestamp: '2024-11-13T08:00:00.000Z', source_ip: '192.168.1.10', alert_type: 'cert_expiry', severity: 'low', confidence: 1.0 } }
     }
 ];
@@ -578,7 +578,7 @@ function exportLogs() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `dexter_logs_${Date.now()}.json`;
+    link.download = `securewatch_logs_${Date.now()}.json`;
     link.click();
     URL.revokeObjectURL(url);
 }
@@ -588,7 +588,7 @@ function exportAllAlerts() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `dexter_alerts_${Date.now()}.json`;
+    link.download = `securewatch_alerts_${Date.now()}.json`;
     link.click();
     URL.revokeObjectURL(url);
 }

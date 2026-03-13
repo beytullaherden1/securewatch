@@ -1,12 +1,12 @@
 // ============================================
-// Dexter IDS — Preload Script
+// SecureWatch — Preload Script
 // Exposes a safe API to the renderer (dashboard)
 // ============================================
 const { contextBridge, ipcRenderer } = require('electron');
 
-contextBridge.exposeInMainWorld('dexter', {
+contextBridge.exposeInMainWorld('securewatch', {
     // App config / info
-    getConfig: () => ipcRenderer.invoke('dexter:getConfig'),
+    getConfig: () => ipcRenderer.invoke('securewatch:getConfig'),
 
     // Platform info for CSS/UI adjustments
     platform: process.platform,

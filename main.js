@@ -1,5 +1,5 @@
 // ============================================
-// Dexter IDS — Electron Main Process
+// SecureWatch — Electron Main Process
 // ============================================
 const { app, BrowserWindow, Menu, shell, ipcMain, screen } = require('electron');
 const path = require('path');
@@ -26,7 +26,7 @@ function createWindow() {
         minHeight: screenH,                     // lock vertical size
         x: Math.round((screenW - winWidth) / 2),
         y: 0,
-        title: 'Dexter',
+        title: 'SecureWatch',
         icon: path.join(__dirname, 'build', 'icon.ico'),
         backgroundColor: '#0F0B0A', // matches --bg-dark
         show: false, // show after ready-to-show to avoid flash
@@ -65,9 +65,9 @@ function createWindow() {
 function buildMenu() {
     const template = [
         {
-            label: 'Dexter',
+            label: 'SecureWatch',
             submenu: [
-                { label: 'About Dexter', role: 'about' },
+                { label: 'About SecureWatch', role: 'about' },
                 { type: 'separator' },
                 { label: 'Quit', accelerator: 'CmdOrCtrl+Q', click: () => app.quit() },
             ],
@@ -113,7 +113,7 @@ app.on('window-all-closed', () => {
 
 // ---- IPC Handlers (placeholder for future API bridge) ----
 // Example: renderer can call window.dexter.getConfig()
-ipcMain.handle('dexter:getConfig', () => {
+ipcMain.handle('securewatch:getConfig', () => {
     return {
         version: app.getVersion(),
         isDev,

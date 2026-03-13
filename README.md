@@ -1,11 +1,7 @@
-<p align="center">
-  <img src="dashboard/images/logo.png" alt="Dexter Logo" width="160">
-</p>
-
-<h1 align="center">Dexter — AI-Powered Intrusion Detection System</h1>
+<h1 align="center">🛡️ SecureWatch</h1>
 
 <p align="center">
-  <strong>Real-time network threat monitoring dashboard built with Electron</strong>
+  <strong>Real-time network security monitoring dashboard built with Electron</strong>
 </p>
 
 <p align="center">
@@ -21,9 +17,9 @@
 
 ## Overview
 
-**Dexter** is a cybersecurity dashboard designed for monitoring network intrusions, analyzing threats in real time, and managing security alerts. Built as a desktop application with Electron, it features a custom design system with cybersecurity-themed motion language and a dark interface optimized for SOC (Security Operations Center) workflows.
+**SecureWatch** is a cybersecurity dashboard for monitoring network intrusions, analyzing threats in real time, and managing security alerts. Built as a desktop application with Electron, it features a dark interface optimized for SOC (Security Operations Center) workflows and a custom motion design system with cybersecurity-themed easing curves.
 
-> **Note:** This is the frontend dashboard module. The backend IDS engine (packet sniffer, ML model, FastAPI) is developed separately.
+> **Note:** This is the frontend dashboard module. Backend IDS engine integration (packet sniffer, ML model, REST API) is on the roadmap.
 
 ---
 
@@ -31,27 +27,24 @@
 
 - **4-Page Dashboard** — Overview, Live Alerts, System Status, System Logs
 - **20+ Realistic Alert Types** — Port Scan, SQL Injection, Ransomware C2, Zero-Day, Brute Force, ARP Spoofing, XSS, Reverse Shell, and more
-- **Interactive Charts** — Threat timeline, attack type distribution, and stat-card sparklines (Chart.js)
-- **Smart Filtering** — Multi-select severity filters, service filters, log level filters with custom dropdown components
+- **Interactive Charts** — Threat timeline, attack type distribution, stat-card sparklines (Chart.js)
+- **Smart Filtering** — Multi-select severity, service, and log level filters with custom dropdown components
 - **Global Search** — Search across alerts by IP, type, protocol, or any keyword
 - **Alert Detail Modal** — Full alert inspection with raw JSON data and one-click export
 - **Export** — Download alerts and logs as JSON
-- **System Status** — Live component health view (Network Sniffer, Database, FastAPI, ML Model, Analytics, Rule Engine)
-- **System Resources** — CPU, Memory, Disk, Network I/O monitoring bars
-- **Pagination** — Both alerts and logs support paginated views
+- **System Status** — Component health monitoring (Network Sniffer, Database, API, ML Model, Analytics, Rule Engine)
+- **System Resources** — CPU, Memory, Disk, Network I/O progress bars
+- **Pagination** — Paginated views for both alerts and logs
 - **Responsive Design** — Breakpoints at 1200px and 768px with collapsible sidebar
-- **Dexter Motion System** — 5 custom cubic-bezier easing curves and 5 duration combos for consistent animations
-- **Desktop App** — Electron packaging with NSIS installer, desktop shortcut, and near-fullscreen window
+- **Motion Design System** — 5 custom cubic-bezier easing curves with consistent animation language
+- **Desktop App** — Electron packaging with NSIS installer and near-fullscreen window
 
 ---
 
 ## Screenshots
 
-<p align="center">
-  <em>Overview Dashboard — threat timeline, attack distribution, top sources</em>
-</p>
-
-> Add your screenshots here: place images in a `screenshots/` folder and reference them as `![Overview](screenshots/overview.png)`
+> Place screenshots in a `screenshots/` folder and reference them here:
+> `![Overview](screenshots/overview.png)`
 
 ---
 
@@ -65,14 +58,14 @@
 | Icons | Font Awesome 6.4, Bootstrap Icons 1.13 |
 | Font | Exo 2 (Google Fonts) |
 | Build | electron-builder (NSIS) |
-| Design System | Custom CSS variables + Dexter Motion System |
+| Design System | CSS custom properties + motion easing curves |
 
 ---
 
 ## Project Structure
 
 ```
-dexter/
+securewatch/
 ├── main.js                 # Electron main process
 ├── preload.js              # Secure IPC bridge (contextBridge)
 ├── package.json            # Dependencies & electron-builder config
@@ -86,7 +79,7 @@ dexter/
     ├── js/
     │   └── app.js          # Application logic (~1200 lines)
     └── images/
-        └── logo.png        # Dexter logo
+        └── logo.png        # Fallback logo asset
 ```
 
 ---
@@ -95,17 +88,15 @@ dexter/
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) 18+ 
+- [Node.js](https://nodejs.org/) 18+
 - npm 9+
 
 ### Installation
 
 ```bash
-# Clone the repository
-git clone https://github.com/YOUR_USERNAME/dexter.git
-cd dexter
+git clone https://github.com/YOUR_USERNAME/securewatch.git
+cd securewatch
 
-# Install dependencies
 npm install
 
 # Run in development mode
@@ -118,12 +109,12 @@ npm run dev
 # Build Windows installer (.exe)
 npm run dist
 
-# Output: dist/Dexter Setup x.x.x.exe
+# Output: dist/SecureWatch Setup 1.0.0.exe
 ```
 
 ---
 
-## Design System — Dexter Motion Language
+## Motion Design System
 
 The dashboard uses a custom motion system inspired by cybersecurity concepts:
 
@@ -143,12 +134,12 @@ All transitions reference these variables — zero hardcoded timing functions.
 
 - [ ] Backend API integration (FastAPI + WebSocket)
 - [ ] Real-time packet capture via Scapy/Suricata
-- [ ] ML anomaly detection model (scikit-learn / PyTorch)
-- [ ] PostgreSQL alert persistence
-- [ ] Auto-update mechanism (electron-updater)
+- [ ] ML anomaly detection model
+- [ ] Database persistence (PostgreSQL)
+- [ ] Auto-update mechanism
 - [ ] Dark/light theme toggle
-- [ ] Alert notification system (system tray)
-- [ ] User authentication & role management
+- [ ] System tray notifications
+- [ ] User authentication & roles
 
 ---
 
@@ -165,9 +156,3 @@ All transitions reference these variables — zero hardcoded timing functions.
 ## License
 
 Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
-
----
-
-<p align="center">
-  Built with precision by <strong>Dexter Team</strong>
-</p>

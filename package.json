@@ -1,7 +1,7 @@
 {
-  "name": "dexter",
+  "name": "securewatch",
   "version": "1.0.0",
-  "description": "Dexter AI-Powered Intrusion Detection System",
+  "description": "Real-time network security monitoring dashboard",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
@@ -10,8 +10,8 @@
     "dist:dir": "electron-builder --win --dir"
   },
   "build": {
-    "appId": "com.dexter.ids",
-    "productName": "Dexter",
+    "appId": "com.securewatch.dashboard",
+    "productName": "SecureWatch",
     "directories": {
       "output": "dist"
     },
@@ -31,7 +31,7 @@
       "allowToChangeInstallationDirectory": false,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "Dexter"
+      "shortcutName": "SecureWatch"
     }
   },
   "keywords": [
@@ -40,7 +40,7 @@
     "dashboard",
     "electron"
   ],
-  "author": "Dexter Team",
+  "author": "",
   "license": "ISC",
   "devDependencies": {
     "electron": "^40.4.1",
