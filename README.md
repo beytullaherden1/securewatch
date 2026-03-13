@@ -43,8 +43,20 @@
 
 ## Screenshots
 
-> Place screenshots in a `screenshots/` folder and reference them here:
-> `![Overview](screenshots/overview.png)`
+### Overview Dashboard
+![Overview](screenshots/overview.png)
+
+### Live Alerts
+![Alerts](screenshots/alerts.png)
+
+### Alert Detail Modal
+![Alert Detail](screenshots/alert-detail.png)
+
+### System Status
+![Status](screenshots/status.png)
+
+### System Logs
+![Logs](screenshots/logs.png)
 
 ---
 
